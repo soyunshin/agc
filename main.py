@@ -547,7 +547,7 @@ else:
 
 #Training
 
-EPOCHS = 50
+EPOCHS = 20
 
 def train_step(inp, tar):
   tar_inp = tar[:, :-1]
@@ -686,36 +686,36 @@ dataset_val = dataset_val.batch(1, drop_remainder=True)
 
 
 #
-y_true = []
-y_pred = []
-acc_cnt = 0
+# y_true = []
+# y_pred = []
+# acc_cnt = 0
 
-a = 0
-for (inp_val_batch, target_val_batch) in iter(dataset_val):
-  a += 1
-  if a % 10 == 0:
-    print(a)
-    print("Accuracy count: ",acc_cnt)
-    print('------------------')
-  target_sentence = ''
-  for i in target_val_batch.numpy()[0]:
-    if i not in [0,old_len+1,old_len+2]:
-      target_sentence += (targ_lang_tokenizer.index_word[i] + ' ')
+# a = 0
+# for (inp_val_batch, target_val_batch) in iter(dataset_val):
+#   a += 1
+#   if a % 10 == 0:
+#     print(a)
+#     print("Accuracy count: ",acc_cnt)
+#     print('------------------')
+#   target_sentence = ''
+#   for i in target_val_batch.numpy()[0]:
+#     if i not in [0,old_len+1,old_len+2]:
+#       target_sentence += (targ_lang_tokenizer.index_word[i] + ' ')
   
-  y_true.append([target_sentence.split(' ')[:-1]])
+#   y_true.append([target_sentence.split(' ')[:-1]])
   
-  result, _ = evaluate_results(inp_val_batch)
-  predicted_sentence = [targ_lang_tokenizer.index_word[i] for i in list(result.numpy()) if (i < len(targ_lang_tokenizer.word_index) and i not in [0,old_len+1,old_len+2])] 
-  y_pred.append(predicted_sentence)
+#   result, _ = evaluate_results(inp_val_batch)
+#   predicted_sentence = [targ_lang_tokenizer.index_word[i] for i in list(result.numpy()) if (i < len(targ_lang_tokenizer.word_index) and i not in [0,old_len+1,old_len+2])] 
+#   y_pred.append(predicted_sentence)
   
-  if target_sentence.split(' ')[:-1] == predicted_sentence:
-    acc_cnt += 1
+#   if target_sentence.split(' ')[:-1] == predicted_sentence:
+#     acc_cnt += 1
 
 
-# Score
-print()
-print('BLEU score : ', corpus_bleu(y_true, y_pred))
-print('Accuracy : ', acc_cnt/len(input_tensor_val))
+# # Score
+# print()
+# print('BLEU score : ', corpus_bleu(y_true, y_pred))
+# print('Accuracy : ', acc_cnt/len(input_tensor_val))
 
 
 
@@ -730,11 +730,10 @@ for inp_vatch in iter(inp_val) :
   pred_sentence = [targ_lang_tokenizer.index_word[i] for i in list(result.numpy()) if (i < len(targ_lang_tokenizer.word_index) and i not in [0,old_len+1,old_len+2])] 
   testlist.append(pred_sentence)
 
-
 test_equ = []
 for i in testlist :
-  test_equ.append('print(' + "".join(i) + ')')
-
+  #test_equ.append("".join(i))
+  test_equ.append('print(' + ("".join(i)) + ')')
 
 
 t_answer = []
@@ -767,7 +766,6 @@ for i in testlist :
   except :
     t_answer.append(0)
 
-    
 
 #
 f_data = OrderedDict()
