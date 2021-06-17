@@ -34,7 +34,7 @@ def convert_eqn(eqn):
 input_exps = list(df['question'].values)
 target_exps = list(df['equation'].apply(lambda x: convert_eqn(x)).values)
 
-ctr = pd.read_json('/home/agc2021/dataset/problemsheet.json')
+ctr = pd.read_json('/home/soyun/mdata/agc/problemsheet_sample.json')
 ctr = ctr.T
 test_exps = list(ctr['question'].values)
 
@@ -547,8 +547,7 @@ else:
 
 #Training
 
-
-EPOCHS = 5 
+EPOCHS = 20
 
 def train_step(inp, tar):
   tar_inp = tar[:, :-1]
